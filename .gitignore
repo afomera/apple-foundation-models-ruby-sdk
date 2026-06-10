@@ -1,0 +1,21 @@
+/.bundle/
+/vendor/bundle/
+/pkg/
+/tmp/
+Gemfile.lock
+
+# Built native artifacts (produced by `rake build_native` / gem install)
+/lib/foundation_models/native/
+/ext/foundation-models-c/.build/
+*.dylib
+*.dSYM/
+
+# Editor/OS
+.DS_Store
+/.ruby-lsp/
+
+# Built gems
+*.gem
+
+PLAN.md
+python-apple-fm-sdk/

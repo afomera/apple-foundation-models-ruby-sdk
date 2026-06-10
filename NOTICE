@@ -1,0 +1,23 @@
+foundation-models (Ruby SDK)
+Copyright 2026 Andrea Fomera
+
+Licensed under the Apache License, Version 2.0 (the "License"); see the LICENSE
+file for the full text.
+
+------------------------------------------------------------------------------
+Third-party code
+------------------------------------------------------------------------------
+
+This product bundles the Foundation Models C/Swift bridge from Apple's
+python-apple-fm-sdk:
+
+    https://github.com/apple/python-apple-fm-sdk
+
+The bridge lives under `ext/foundation-models-c/` and is redistributed
+unmodified under the Apache License, Version 2.0. Those source files retain
+their original copyright notices:
+
+    Copyright (C) 2026 Apple Inc. All Rights Reserved.
+
+A copy of the Apache License accompanies that directory in
+`ext/foundation-models-c/LICENSE`.

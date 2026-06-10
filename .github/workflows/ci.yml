@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      # The gem is platform-locked to arm64-darwin and builds a Swift extension, so we
+      # install the linters directly instead of bundling the whole gem on Linux.
+      - name: Install RuboCop
+        run: gem install rubocop -v "~> 1.87" rubocop-rspec -v "~> 3.10"
+      - name: RuboCop
+        run: rubocop --no-server
+
+  test:
+    name: Build & test (macOS)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select latest Xcode
+        run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+      - name: Show toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build native bindings
+        run: bundle exec rake build_native
+
+      - name: Run specs
+        # Device-backed examples self-skip when Apple Intelligence is unavailable
+        # (as on hosted runners); schema/options/error/prompt specs still run.
+        run: bundle exec rspec --format progress

@@ -1,0 +1,84 @@
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "ext/foundation-models-c/**/*"
+    - "python-apple-fm-sdk/**/*"
+    - "vendor/**/*"
+    - "tmp/**/*"
+
+# This is a binding library: it talks to a flat C ABI, so some methods are
+# necessarily long/branchy and naming mirrors the C side and math conventions.
+Metrics/MethodLength:
+  Max: 45
+Metrics/AbcSize:
+  Max: 40
+Metrics/ClassLength:
+  Max: 300
+Metrics/CyclomaticComplexity:
+  Max: 14
+Metrics/PerceivedComplexity:
+  Max: 14
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+    - "lib/foundation_models/ffi/library.rb"
+Metrics/ParameterLists:
+  Max: 6
+
+# Keep trailing commas in multiline literals (used consistently throughout).
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/StringLiterals:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/OneClassPerFile:
+  Enabled: false
+Style/SpecialGlobalVars:
+  Enabled: false
+Naming/PredicateMethod:
+  Enabled: false
+# Single-letter math/DSL parameter names (count(n), range(r), maximum(n)) are intentional.
+Naming/MethodParameterName:
+  MinNameLength: 1
+Layout/EmptyLinesAfterModuleInclusion:
+  Enabled: false
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - "spec/**/*"
+Style/SafeNavigationChainLength:
+  Enabled: false
+
+# Dev dependencies live in the gemspec (traditional for a library).
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/LeakyConstantDeclaration:
+  Enabled: false
+RSpec/DescribeClass:
+  Enabled: false
+RSpec/DescribedClass:
+  Enabled: false
+RSpec/SpecFilePathFormat:
+  Enabled: false
+RSpec/MultipleDescribes:
+  Enabled: false
+RSpec/MatchWithSimpleRegex:
+  Enabled: false
