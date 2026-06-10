@@ -10,7 +10,7 @@ RSpec.describe FoundationModels::Prompt do
     FoundationModels::Library.FMRelease(ptr)
   end
 
-  it "composes a mixed array of text and attachments" do
+  it "composes a mixed array of text and attachments", :image do
     image = File.expand_path("fixtures/sample.jpeg", __dir__)
     ptr = described_class.compose(["describe:", FoundationModels::Attachment.new(image)])
     expect(ptr.null?).to be(false)
@@ -21,7 +21,7 @@ RSpec.describe FoundationModels::Prompt do
     expect { described_class.compose([123]) }.to raise_error(FoundationModels::PromptError)
   end
 
-  describe "image prompts", :device do
+  describe "image prompts", :device, :image do
     it "answers a question about an attached image" do
       image = File.expand_path("fixtures/sample.jpeg", __dir__)
       session = FoundationModels::LanguageModelSession.new(instructions: "Describe images briefly.")

@@ -13,6 +13,11 @@ module FoundationModels
   #   prompt = ["Describe this:", FoundationModels::Attachment.new("/path/to/cat.jpg")]
   #   session.respond(prompt)
   class Attachment
+    # FMComposedPromptAddImageError codes.
+    ADD_ERROR_NONE = 0
+    ADD_ERROR_UNSUPPORTED = 1
+    ADD_ERROR_UNKNOWN = 2
+
     attr_reader :path, :label
 
     # @param path [String] filesystem path to the image
@@ -29,8 +34,19 @@ module FoundationModels
       ok = Library.FMComposedPromptAddAttachment(composed_ptr, path.to_s, label, error)
       return if ok
 
-      reason = error.read_int
-      raise ImagePromptError, "Failed to add attachment '#{path}' (error code #{reason})"
+      raise ImagePromptError, add_error_message(error.read_int)
+    end
+
+    private
+
+    def add_error_message(code)
+      case code
+      when ADD_ERROR_UNSUPPORTED
+        "Image attachments are unavailable: this build of the Foundation Models " \
+        "bindings was compiled without macOS 27+ SDK support (attachment: '#{path}')."
+      else
+        "Failed to add attachment '#{path}' (error code #{code})"
+      end
     end
   end
 
